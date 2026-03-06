@@ -32,6 +32,11 @@ export const goalsApi = {
   update: (data) => apiPost('/api/goals', data),
 };
 
+export const calorieApi = {
+  calculate: (data) => apiPost('/api/calorie/calculate', data),
+  getGoals: () => apiGet('/api/calorie/goals'),
+};
+
 export const foodsLookupApi = {
   search: (q) => apiGet(`/api/foods-lookup/search${q ? `?q=${encodeURIComponent(q)}` : ''}`),
   calculate: (foodName, quantity, unit) =>

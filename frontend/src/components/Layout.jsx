@@ -4,6 +4,7 @@ const nav = [
   { to: '/', label: 'Dashboard' },
   { to: '/workouts', label: 'Workouts' },
   { to: '/diet', label: 'Diet' },
+  { to: '/calorie-calculator', label: 'Calorie Calculator' },
   { to: '/progress', label: 'Progress' },
 ];
 

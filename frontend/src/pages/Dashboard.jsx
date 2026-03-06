@@ -25,14 +25,22 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <h1 className="text-2xl font-bold text-slate-800">Today's Overview</h1>
-        <button
-          onClick={() => setShowGoals(!showGoals)}
-          className="text-sm font-medium text-primary-600 hover:text-primary-700"
-        >
-          {showGoals ? 'Hide goals' : 'Edit daily goals'}
-        </button>
+        <div className="flex gap-2">
+          <Link
+            to="/calorie-calculator"
+            className="text-sm font-medium text-primary-600 hover:text-primary-700"
+          >
+            Calorie Calculator
+          </Link>
+          <button
+            onClick={() => setShowGoals(!showGoals)}
+            className="text-sm font-medium text-primary-600 hover:text-primary-700"
+          >
+            {showGoals ? 'Hide goals' : 'Edit daily goals'}
+          </button>
+        </div>
       </div>
 
       {showGoals && (
@@ -43,13 +51,19 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          title="Calories consumed"
-          value={caloriesConsumed}
-          subtitle={`Goal: ${dailyCalorieGoal} kcal`}
+          title="Daily Calorie Target"
+          value={`${dailyCalorieGoal} kcal`}
+          subtitle="your goal for today"
           color="primary"
         />
         <StatCard
-          title="Remaining calories"
+          title="Calories Consumed Today"
+          value={caloriesConsumed}
+          subtitle={`of ${dailyCalorieGoal} kcal`}
+          color="primary"
+        />
+        <StatCard
+          title="Remaining Calories"
           value={remainingCalories}
           subtitle="left for today"
           color="accent"
@@ -57,7 +71,7 @@ export default function Dashboard() {
         <StatCard
           title="Protein"
           value={`${totalProtein}g`}
-          subtitle={`Goal: ${dailyProteinGoal}g`}
+          subtitle={`Target: ${dailyProteinGoal}g`}
           color="primary"
         />
         <StatCard

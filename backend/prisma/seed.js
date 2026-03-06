@@ -11,14 +11,28 @@ async function main() {
       name: 'Demo User',
     },
   });
+
   console.log('Seeded user:', user.email, '(id:', user.id, ')');
   console.log('Set USER_ID=' + user.id + ' in .env to use this user.');
 
-  const existing = await prisma.nutritionGoal.findFirst({ where: { userId: user.id } });
+  const existing = await prisma.nutritionGoal.findFirst({
+    where: { userId: user.id },
+  });
+
   if (!existing) {
     await prisma.nutritionGoal.create({
-      data: { userId: user.id, dailyCalories: 2000, dailyProtein: 150 },
+      data: {
+        userId: user.id,
+        weight: 70,
+        height: 175,
+        age: 22,
+        activityLevel: "moderate",
+        goal: "maintain",
+        dailyCalories: 2500,
+        proteinTarget: 112
+      },
     });
+
     console.log('Seeded default nutrition goal.');
   }
 }

@@ -5,6 +5,7 @@ generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -12,11 +13,11 @@ datasource db {
 
 // User model - stores user profile and links to all data
 model User {
-  id             String         @id @default(cuid())
-  email          String         @unique
+  id             String          @id @default(cuid())
+  email          String          @unique
   name           String?
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   workouts       Workout[]
   foodLogs       FoodLog[]
   nutritionGoals NutritionGoal[]
@@ -27,7 +28,7 @@ model Workout {
   id        String     @id @default(cuid())
   userId    String
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String     // e.g. "Leg Day", "Upper Body"
+  name      String // e.g. "Leg Day", "Upper Body"
   date      DateTime
   notes     String?
   createdAt DateTime   @default(now())
@@ -36,13 +37,13 @@ model Workout {
 
 // Exercise - single exercise within a workout (sets, reps, weight)
 model Exercise {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   workoutId String
-  workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-  name      String   // e.g. "Bench Press", "Squat"
+  workout   Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  name      String // e.g. "Bench Press", "Squat"
   sets      Int
   reps      Int
-  weight    Float    // in kg
+  weight    Float // in kg
   notes     String?
 }
 
@@ -52,20 +53,28 @@ model FoodLog {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   foodName  String
-  quantity  Float    // e.g. 200 (grams), 3 (eggs)
+  quantity  Float // e.g. 200 (grams), 3 (eggs)
   unit      String   @default("g") // g, servings, etc.
-  calories  Float    // total calories for this entry
-  protein   Float    // total protein in grams
+  calories  Float // total calories for this entry
+  protein   Float // total protein in grams
   date      DateTime
   createdAt DateTime @default(now())
 }
 
-// Nutrition goals - user's daily targets (one active per user, or we use latest)
+// Nutrition goals - user's daily targets and calculator inputs
 model NutritionGoal {
-  id            String   @id @default(cuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  weight        Float
+  height        Float
+  age           Int
+  activityLevel String
+  goal          String
+
   dailyCalories Int
-  dailyProtein  Float    // in grams
-  createdAt     DateTime @default(now())
+  proteinTarget Int
+
+  createdAt DateTime @default(now())
 }

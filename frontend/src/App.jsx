@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Workouts from './pages/Workouts';
 import Diet from './pages/Diet';
+import CalorieCalculator from './pages/CalorieCalculator';
 import Progress from './pages/Progress';
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/workouts" element={<Workouts />} />
         <Route path="/diet" element={<Diet />} />
+        <Route path="/calorie-calculator" element={<CalorieCalculator />} />
         <Route path="/progress" element={<Progress />} />
       </Routes>
     </Layout>

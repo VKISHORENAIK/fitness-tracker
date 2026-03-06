@@ -5,6 +5,7 @@ import workoutRoutes from './routes/workouts.js';
 import foodRoutes from './routes/food.js';
 import progressRoutes from './routes/progress.js';
 import goalsRoutes from './routes/goals.js';
+import calorieRoutes from './routes/calorie.js';
 import foodsLookupRoutes from './routes/foodsLookup.js';
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use('/api/workouts', workoutRoutes);
 app.use('/api/food', foodRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/goals', goalsRoutes);
+app.use('/api/calorie', calorieRoutes);
 app.use('/api/foods-lookup', foodsLookupRoutes);
 
 app.get('/api/health', (req, res) => {
