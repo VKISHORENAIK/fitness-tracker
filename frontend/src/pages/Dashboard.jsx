@@ -1,153 +1,8 @@
-// import { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import { progressApi } from '../api';
-// import GoalsForm from '../components/GoalsForm';
-
-// export default function Dashboard() {
-//   const [data, setData] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [showGoals, setShowGoals] = useState(false);
-
-//   useEffect(() => {
-//     progressApi
-//       .getDaily()
-//       .then(setData)
-//       .catch((e) => setError(e.message))
-//       .finally(() => setLoading(false));
-//   }, [showGoals]);
-
-//   if (loading) return <div className="text-center py-12 text-slate-500">Loading...</div>;
-//   if (error) return <div className="rounded-lg bg-red-50 text-red-700 p-4">{error}</div>;
-//   if (!data) return null;
-
-//   const { caloriesConsumed, remainingCalories, totalProtein, remainingProtein, dailyCalorieGoal, dailyProteinGoal, workouts, foodLogs } = data;
-
-//   return (
-//     <div className="space-y-8">
-//       <div className="flex items-center justify-between flex-wrap gap-2">
-//         <h1 className="text-2xl font-bold text-slate-800">Today's Overview</h1>
-//         <div className="flex gap-2">
-//           <Link
-//             to="/calorie-calculator"
-//             className="text-sm font-medium text-primary-600 hover:text-primary-700"
-//           >
-//             Calorie Calculator
-//           </Link>
-//           <button
-//             onClick={() => setShowGoals(!showGoals)}
-//             className="text-sm font-medium text-primary-600 hover:text-primary-700"
-//           >
-//             {showGoals ? 'Hide goals' : 'Edit daily goals'}
-//           </button>
-//         </div>
-//       </div>
-
-//       {showGoals && (
-//         <div className="bg-white rounded-xl border border-slate-200 p-6">
-//           <GoalsForm onSaved={() => setShowGoals(false)} initialCalories={dailyCalorieGoal} initialProtein={dailyProteinGoal} />
-//         </div>
-//       )}
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-//         <StatCard
-//           title="Daily Calorie Target"
-//           value={`${dailyCalorieGoal} kcal`}
-//           subtitle="your goal for today"
-//           color="primary"
-//         />
-//         <StatCard
-//           title="Calories Consumed Today"
-//           value={caloriesConsumed}
-//           subtitle={`of ${dailyCalorieGoal} kcal`}
-//           color="primary"
-//         />
-//         <StatCard
-//           title="Remaining Calories"
-//           value={remainingCalories}
-//           subtitle="left for today"
-//           color="accent"
-//         />
-//         <StatCard
-//           title="Protein"
-//           value={`${totalProtein}g`}
-//           subtitle={`Target: ${dailyProteinGoal}g`}
-//           color="primary"
-//         />
-//         <StatCard
-//           title="Remaining protein"
-//           value={`${Math.round(remainingProtein)}g`}
-//           subtitle="left for today"
-//           color="accent"
-//         />
-//       </div>
-
-//       <div className="grid lg:grid-cols-2 gap-6">
-//         <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-//           <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-//             <h2 className="font-semibold text-slate-800">Workouts today</h2>
-//             <Link to="/workouts" className="text-sm text-primary-600 hover:underline">Add workout</Link>
-//           </div>
-//           <div className="p-6">
-//             {workouts?.length ? (
-//               <ul className="space-y-3">
-//                 {workouts.map((w) => (
-//                   <li key={w.id} className="flex justify-between items-start">
-//                     <div>
-//                       <p className="font-medium text-slate-800">{w.name}</p>
-//                       <p className="text-sm text-slate-500">
-//                         {w.exercises?.length} exercise(s)
-//                       </p>
-//                     </div>
-//                   </li>
-//                 ))}
-//               </ul>
-//             ) : (
-//               <p className="text-slate-500 text-sm">No workouts logged today.</p>
-//             )}
-//           </div>
-//         </section>
-
-//         <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-//           <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-//             <h2 className="font-semibold text-slate-800">Food today</h2>
-//             <Link to="/diet" className="text-sm text-primary-600 hover:underline">Log food</Link>
-//           </div>
-//           <div className="p-6">
-//             {foodLogs?.length ? (
-//               <ul className="space-y-3">
-//                 {foodLogs.map((f) => (
-//                   <li key={f.id} className="flex justify-between items-center">
-//                     <span className="text-slate-800">{f.foodName}</span>
-//                     <span className="text-sm text-slate-500">{f.calories} kcal · {f.protein}g protein</span>
-//                   </li>
-//                 ))}
-//               </ul>
-//             ) : (
-//               <p className="text-slate-500 text-sm">No food logged today.</p>
-//             )}
-//           </div>
-//         </section>
-//       </div>
-//     </div>
-//   );
-// }
-
-// function StatCard({ title, value, subtitle, color }) {
-//   const bg = color === 'primary' ? 'bg-primary-50 border-primary-200' : 'bg-amber-50 border-amber-200';
-//   const valueCl = color === 'primary' ? 'text-primary-700' : 'text-amber-800';
-//   return (
-//     <div className={`rounded-xl border p-6 ${bg}`}>
-//       <p className="text-sm font-medium text-slate-600">{title}</p>
-//       <p className={`text-2xl font-bold mt-1 ${valueCl}`}>{value}</p>
-//       <p className="text-xs text-slate-500 mt-1">{subtitle}</p>
-//     </div>
-//   );
-// }
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { progressApi } from '../api';
 import GoalsForm from '../components/GoalsForm';
+import { DashboardSkeleton } from '../components/LoadingSkeleton';
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -163,8 +18,13 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, [showGoals]);
 
-  if (loading) return <div className="text-center py-12 text-slate-500">Loading...</div>;
-  if (error) return <div className="rounded-lg bg-red-50 text-red-700 p-4">{error}</div>;
+  if (loading) return <DashboardSkeleton />;
+  if (error)
+    return (
+      <div className="rounded-2xl bg-red-50 text-red-700 p-4 border border-red-100 animate-fade-in">
+        {error}
+      </div>
+    );
   if (!data) return null;
 
   const {
@@ -175,35 +35,33 @@ export default function Dashboard() {
     dailyCalorieGoal,
     dailyProteinGoal,
     workouts,
-    foodLogs
+    foodLogs,
   } = data;
 
   const proteinGoal = dailyProteinGoal || 150;
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between flex-wrap gap-2">
-        <h1 className="text-2xl font-bold text-slate-800">Today's Overview</h1>
-
+    <div className="space-y-8 animate-fade-in">
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h1 className="text-2xl font-semibold text-ink tracking-tight">Today's Overview</h1>
         <div className="flex gap-2">
           <Link
             to="/calorie-calculator"
-            className="text-sm font-medium text-primary-600 hover:text-primary-700"
+            className="px-4 py-2 rounded-xl text-sm font-medium text-ink-secondary hover:text-ink hover:bg-neutral-100 transition-all duration-200"
           >
             Calorie Calculator
           </Link>
-
           <button
             onClick={() => setShowGoals(!showGoals)}
-            className="text-sm font-medium text-primary-600 hover:text-primary-700"
+            className="px-4 py-2 rounded-xl text-sm font-medium text-ink-secondary hover:text-ink hover:bg-neutral-100 transition-all duration-200"
           >
-            {showGoals ? 'Hide goals' : 'Edit daily goals'}
+            {showGoals ? 'Hide goals' : 'Edit goals'}
           </button>
         </div>
       </div>
 
       {showGoals && (
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <div className="bg-surface-elevated rounded-2xl shadow-card p-6 border border-neutral-100 animate-fade-in-up">
           <GoalsForm
             onSaved={() => setShowGoals(false)}
             initialCalories={dailyCalorieGoal}
@@ -212,60 +70,64 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard
           title="Daily Calorie Target"
           value={`${dailyCalorieGoal} kcal`}
           subtitle="your goal for today"
-          color="primary"
+          index={0}
         />
-
         <StatCard
-          title="Calories Consumed Today"
+          title="Calories Consumed"
           value={caloriesConsumed}
           subtitle={`of ${dailyCalorieGoal} kcal`}
-          color="primary"
+          index={1}
         />
-
         <StatCard
           title="Remaining Calories"
           value={remainingCalories}
           subtitle="left for today"
-          color="accent"
+          index={2}
+          accent
         />
-
         <StatCard
           title="Protein"
           value={`${totalProtein}g`}
           subtitle={`Target: ${proteinGoal}g`}
-          color="primary"
+          index={3}
         />
-
         <StatCard
           title="Remaining Protein"
           value={`${Math.round(remainingProtein)}g`}
           subtitle="left for today"
-          color="accent"
+          index={4}
+          accent
         />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="font-semibold text-slate-800">Workouts today</h2>
-            <Link to="/workouts" className="text-sm text-primary-600 hover:underline">
+        <section className="bg-surface-elevated rounded-2xl shadow-card overflow-hidden border border-neutral-100">
+          <div className="px-6 py-4 border-b border-neutral-100 flex items-center justify-between">
+            <h2 className="font-semibold text-ink text-sm">Workouts today</h2>
+            <Link
+              to="/workouts"
+              className="text-sm font-medium text-ink-secondary hover:text-ink transition-colors"
+            >
               Add workout
             </Link>
           </div>
-
           <div className="p-6">
             {workouts?.length ? (
               <ul className="space-y-3">
-                {workouts.map((w) => (
-                  <li key={w.id} className="flex justify-between items-start">
+                {workouts.map((w, i) => (
+                  <li
+                    key={w.id}
+                    className="flex justify-between items-start py-2 animate-fade-in-up"
+                    style={{ animationDelay: `${i * 50}ms` }}
+                  >
                     <div>
-                      <p className="font-medium text-slate-800">{w.name}</p>
-                      <p className="text-sm text-slate-500">
+                      <p className="font-medium text-ink">{w.name}</p>
+                      <p className="text-sm text-ink-tertiary">
                         {w.exercises?.length} exercise(s)
                       </p>
                     </div>
@@ -273,33 +135,39 @@ export default function Dashboard() {
                 ))}
               </ul>
             ) : (
-              <p className="text-slate-500 text-sm">No workouts logged today.</p>
+              <p className="text-ink-muted text-sm py-4">No workouts logged today.</p>
             )}
           </div>
         </section>
 
-        <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="font-semibold text-slate-800">Food today</h2>
-            <Link to="/diet" className="text-sm text-primary-600 hover:underline">
+        <section className="bg-surface-elevated rounded-2xl shadow-card overflow-hidden border border-neutral-100">
+          <div className="px-6 py-4 border-b border-neutral-100 flex items-center justify-between">
+            <h2 className="font-semibold text-ink text-sm">Food today</h2>
+            <Link
+              to="/diet"
+              className="text-sm font-medium text-ink-secondary hover:text-ink transition-colors"
+            >
               Log food
             </Link>
           </div>
-
           <div className="p-6">
             {foodLogs?.length ? (
               <ul className="space-y-3">
-                {foodLogs.map((f) => (
-                  <li key={f.id} className="flex justify-between items-center">
-                    <span className="text-slate-800">{f.foodName}</span>
-                    <span className="text-sm text-slate-500">
+                {foodLogs.map((f, i) => (
+                  <li
+                    key={f.id}
+                    className="flex justify-between items-center py-2 animate-fade-in-up"
+                    style={{ animationDelay: `${i * 50}ms` }}
+                  >
+                    <span className="font-medium text-ink">{f.foodName}</span>
+                    <span className="text-sm text-ink-tertiary">
                       {f.calories} kcal · {f.protein}g protein
                     </span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-slate-500 text-sm">No food logged today.</p>
+              <p className="text-ink-muted text-sm py-4">No food logged today.</p>
             )}
           </div>
         </section>
@@ -308,22 +176,26 @@ export default function Dashboard() {
   );
 }
 
-function StatCard({ title, value, subtitle, color }) {
-  const bg =
-    color === 'primary'
-      ? 'bg-primary-50 border-primary-200'
-      : 'bg-amber-50 border-amber-200';
-
-  const valueCl =
-    color === 'primary'
-      ? 'text-primary-700'
-      : 'text-amber-800';
-
+function StatCard({ title, value, subtitle, index, accent }) {
   return (
-    <div className={`rounded-xl border p-6 ${bg}`}>
-      <p className="text-sm font-medium text-slate-600">{title}</p>
-      <p className={`text-2xl font-bold mt-1 ${valueCl}`}>{value}</p>
-      <p className="text-xs text-slate-500 mt-1">{subtitle}</p>
+    <div
+      className={`
+        rounded-2xl p-6 shadow-card border transition-all duration-250
+        hover:shadow-card-hover hover:scale-[1.01]
+        bg-surface-elevated border-neutral-100
+        animate-fade-in-up
+      `}
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
+      <p className="text-sm font-medium text-ink-secondary">{title}</p>
+      <p
+        className={`text-2xl font-semibold mt-2 tracking-tight ${
+          accent ? 'text-ink' : 'text-ink'
+        }`}
+      >
+        {value}
+      </p>
+      <p className="text-xs text-ink-muted mt-1">{subtitle}</p>
     </div>
   );
 }

@@ -15,6 +15,9 @@ const GOAL_OPTIONS = [
   { value: 'gain weight', label: 'Gain weight' },
 ];
 
+const inputClass =
+  'mt-1 block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-ink bg-surface-elevated focus:border-ink/30 transition-colors';
+
 export default function CalorieCalculator() {
   const [form, setForm] = useState({
     weight: '',
@@ -57,23 +60,28 @@ export default function CalorieCalculator() {
   }
 
   return (
-    <div className="space-y-8 max-w-2xl mx-auto">
+    <div className="space-y-8 max-w-2xl mx-auto animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">Calorie Calculator</h1>
-        <p className="text-slate-600 mt-1 text-sm">
+        <h1 className="text-2xl font-semibold text-ink tracking-tight">Calorie Calculator</h1>
+        <p className="text-ink-secondary mt-1 text-sm">
           Calculate your daily calorie requirement using the Mifflin-St Jeor equation.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-200 p-6 space-y-5">
-        <h2 className="font-semibold text-slate-800">Your details</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-surface-elevated rounded-2xl shadow-card border border-neutral-100 p-6 sm:p-8 space-y-5"
+      >
+        <h2 className="font-semibold text-ink text-sm">Your details</h2>
         {error && (
-          <div className="rounded-lg bg-red-50 text-red-700 px-4 py-2 text-sm">{error}</div>
+          <div className="rounded-xl bg-red-50 text-red-700 px-4 py-2.5 text-sm border border-red-100">
+            {error}
+          </div>
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Weight (kg)</span>
+            <span className="text-sm font-medium text-ink-secondary">Weight (kg)</span>
             <input
               type="number"
               name="weight"
@@ -82,11 +90,11 @@ export default function CalorieCalculator() {
               value={form.weight}
               onChange={handleChange}
               required
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+              className={inputClass}
             />
           </label>
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Height (cm)</span>
+            <span className="text-sm font-medium text-ink-secondary">Height (cm)</span>
             <input
               type="number"
               name="height"
@@ -95,14 +103,14 @@ export default function CalorieCalculator() {
               value={form.height}
               onChange={handleChange}
               required
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+              className={inputClass}
             />
           </label>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Age</span>
+            <span className="text-sm font-medium text-ink-secondary">Age</span>
             <input
               type="number"
               name="age"
@@ -111,16 +119,16 @@ export default function CalorieCalculator() {
               value={form.age}
               onChange={handleChange}
               required
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+              className={inputClass}
             />
           </label>
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Gender</span>
+            <span className="text-sm font-medium text-ink-secondary">Gender</span>
             <select
               name="gender"
               value={form.gender}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+              className={inputClass}
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -129,12 +137,12 @@ export default function CalorieCalculator() {
         </div>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Activity level</span>
+          <span className="text-sm font-medium text-ink-secondary">Activity level</span>
           <select
             name="activityLevel"
             value={form.activityLevel}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+            className={inputClass}
           >
             {ACTIVITY_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -145,12 +153,12 @@ export default function CalorieCalculator() {
         </label>
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Goal</span>
+          <span className="text-sm font-medium text-ink-secondary">Goal</span>
           <select
             name="goal"
             value={form.goal}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+            className={inputClass}
           >
             {GOAL_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -163,32 +171,32 @@ export default function CalorieCalculator() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full sm:w-auto rounded-lg bg-primary-600 text-white px-6 py-2.5 text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
+          className="w-full sm:w-auto rounded-xl bg-ink text-white px-6 py-2.5 text-sm font-medium hover:bg-ink/90 disabled:opacity-50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
         >
           {loading ? 'Calculating...' : 'Calculate'}
         </button>
       </form>
 
       {result && (
-        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-          <div className="bg-primary-50 border-b border-primary-200 px-6 py-4">
-            <h2 className="font-semibold text-primary-800">Your results</h2>
+        <div className="bg-surface-elevated rounded-2xl shadow-card overflow-hidden border border-neutral-100 animate-fade-in-up">
+          <div className="bg-neutral-50 border-b border-neutral-100 px-6 py-4">
+            <h2 className="font-semibold text-ink">Your results</h2>
             {result.saved && (
-              <p className="text-xs text-primary-600 mt-0.5">Saved to your goals</p>
+              <p className="text-xs text-ink-tertiary mt-0.5">Saved to your goals</p>
             )}
           </div>
           <div className="p-6 space-y-4">
-            <div className="flex justify-between items-center py-3 border-b border-slate-100">
-              <span className="text-slate-600">Basal Metabolic Rate (BMR)</span>
-              <span className="font-bold text-slate-900">{result.bmr} kcal/day</span>
+            <div className="flex justify-between items-center py-3 border-b border-neutral-100">
+              <span className="text-ink-secondary">Basal Metabolic Rate (BMR)</span>
+              <span className="font-semibold text-ink">{result.bmr} kcal/day</span>
             </div>
-            <div className="flex justify-between items-center py-3 border-b border-slate-100">
-              <span className="text-slate-600">Daily calories needed</span>
-              <span className="font-bold text-primary-600">{result.dailyCalories} kcal</span>
+            <div className="flex justify-between items-center py-3 border-b border-neutral-100">
+              <span className="text-ink-secondary">Daily calories needed</span>
+              <span className="font-semibold text-ink">{result.dailyCalories} kcal</span>
             </div>
             <div className="flex justify-between items-center py-3">
-              <span className="text-slate-600">Recommended protein intake</span>
-              <span className="font-bold text-slate-900">{result.proteinTarget}g/day</span>
+              <span className="text-ink-secondary">Recommended protein intake</span>
+              <span className="font-semibold text-ink">{result.proteinTarget}g/day</span>
             </div>
           </div>
         </div>

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { foodApi, foodsLookupApi } from '../api';
 
+const inputClass =
+  'block w-full rounded-xl border border-neutral-200 px-4 py-2.5 text-ink bg-surface-elevated focus:border-ink/30 transition-colors';
+
 export default function FoodLogForm({ onSaved }) {
   const [foodName, setFoodName] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -85,26 +88,32 @@ export default function FoodLogForm({ onSaved }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h3 className="font-semibold text-slate-800">Log food</h3>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      <h3 className="font-semibold text-ink text-sm">Log food</h3>
+      {error && (
+        <p className="text-sm text-red-600 rounded-xl bg-red-50 px-3 py-2 border border-red-100">
+          {error}
+        </p>
+      )}
 
       <div className="relative">
-        <label className="block text-sm text-slate-600 mb-1">Food name (search to auto-fill)</label>
+        <label className="block text-sm font-medium text-ink-secondary mb-1">
+          Food name (search to auto-fill)
+        </label>
         <input
           type="text"
           value={foodName}
           onChange={(e) => setFoodName(e.target.value)}
           placeholder="e.g. Chicken breast, Eggs"
-          className="w-full rounded-lg border border-slate-300 px-3 py-2"
+          className={`${inputClass} mt-1`}
           autoComplete="off"
         />
         {suggestions.length > 0 && (
-          <ul className="absolute z-10 mt-1 w-full rounded-lg border border-slate-200 bg-white shadow-lg max-h-48 overflow-y-auto">
+          <ul className="absolute z-10 mt-1 w-full rounded-xl border border-neutral-200 bg-surface-elevated shadow-card max-h-48 overflow-y-auto">
             {suggestions.slice(0, 8).map((item, i) => (
               <li
                 key={i}
                 onClick={() => selectSuggestion(item)}
-                className="px-3 py-2 cursor-pointer hover:bg-primary-50 text-slate-800"
+                className="px-4 py-2.5 cursor-pointer hover:bg-neutral-50 text-ink transition-colors"
               >
                 {item.name}
               </li>
@@ -115,22 +124,22 @@ export default function FoodLogForm({ onSaved }) {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <label className="block">
-          <span className="text-sm text-slate-600">Quantity</span>
+          <span className="text-sm font-medium text-ink-secondary">Quantity</span>
           <input
             type="number"
             min="0"
             step="any"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+            className={`${inputClass} mt-1`}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-slate-600">Unit</span>
+          <span className="text-sm font-medium text-ink-secondary">Unit</span>
           <select
             value={unit}
             onChange={(e) => setUnit(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+            className={`${inputClass} mt-1`}
           >
             <option value="g">g</option>
             <option value="ml">ml</option>
@@ -139,43 +148,43 @@ export default function FoodLogForm({ onSaved }) {
           </select>
         </label>
         <label className="block">
-          <span className="text-sm text-slate-600">Calories</span>
+          <span className="text-sm font-medium text-ink-secondary">Calories</span>
           <input
             type="number"
             min="0"
             step="0.1"
             value={calories}
             onChange={(e) => setCalories(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+            className={`${inputClass} mt-1`}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-slate-600">Protein (g)</span>
+          <span className="text-sm font-medium text-ink-secondary">Protein (g)</span>
           <input
             type="number"
             min="0"
             step="0.1"
             value={protein}
             onChange={(e) => setProtein(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+            className={`${inputClass} mt-1`}
           />
         </label>
       </div>
 
       <label className="block">
-        <span className="text-sm text-slate-600">Date</span>
+        <span className="text-sm font-medium text-ink-secondary">Date</span>
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 max-w-xs"
+          className={`${inputClass} mt-1 max-w-xs`}
         />
       </label>
 
       <button
         type="submit"
         disabled={saving}
-        className="rounded-lg bg-primary-600 text-white px-4 py-2 text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
+        className="rounded-xl bg-ink text-white px-5 py-2.5 text-sm font-medium hover:bg-ink/90 disabled:opacity-50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
       >
         {saving ? 'Saving...' : 'Add food log'}
       </button>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { foodApi, foodsLookupApi } from '../api';
 import FoodLogForm from '../components/FoodLogForm';
+import { CardSkeleton } from '../components/LoadingSkeleton';
 
 export default function Diet() {
   const [logs, setLogs] = useState([]);
@@ -29,23 +30,41 @@ export default function Diet() {
     }
   }
 
-  if (loading) return <div className="text-center py-12 text-slate-500">Loading...</div>;
-  if (error) return <div className="rounded-lg bg-red-50 text-red-700 p-4">{error}</div>;
+  if (loading)
+    return (
+      <div className="space-y-6 animate-fade-in">
+        <div className="flex justify-between">
+          <div className="h-8 w-40 bg-neutral-200 rounded-lg animate-pulse" />
+          <div className="h-10 w-24 bg-neutral-200 rounded-xl animate-pulse" />
+        </div>
+        <div className="space-y-3">
+          {[1, 2, 3, 4].map((i) => (
+            <CardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="rounded-2xl bg-red-50 text-red-700 p-4 border border-red-100 animate-fade-in">
+        {error}
+      </div>
+    );
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-800">Diet Tracker</h1>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h1 className="text-2xl font-semibold text-ink tracking-tight">Diet Tracker</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="rounded-lg bg-primary-600 text-white px-4 py-2 text-sm font-medium hover:bg-primary-700"
+          className="px-5 py-2.5 rounded-xl bg-ink text-white text-sm font-medium hover:bg-ink/90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
         >
           {showForm ? 'Cancel' : 'Log food'}
         </button>
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <div className="bg-surface-elevated rounded-2xl shadow-card p-6 border border-neutral-100 animate-fade-in-up">
           <FoodLogForm
             onSaved={() => {
               setShowForm(false);
@@ -57,23 +76,26 @@ export default function Diet() {
 
       <div className="space-y-3">
         {logs.length === 0 ? (
-          <p className="text-slate-500 py-8 text-center">No food logged yet.</p>
+          <div className="bg-surface-elevated rounded-2xl shadow-card p-12 text-center border border-neutral-100">
+            <p className="text-ink-muted">No food logged yet.</p>
+          </div>
         ) : (
-          logs.map((f) => (
+          logs.map((f, i) => (
             <div
               key={f.id}
-              className="bg-white rounded-xl border border-slate-200 px-6 py-4 flex justify-between items-center"
+              className="bg-surface-elevated rounded-2xl shadow-card px-6 py-4 flex justify-between items-center border border-neutral-100 hover:shadow-card-hover transition-all duration-200 animate-fade-in-up"
+              style={{ animationDelay: `${i * 30}ms` }}
             >
               <div>
-                <p className="font-medium text-slate-800">{f.foodName}</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-medium text-ink">{f.foodName}</p>
+                <p className="text-sm text-ink-tertiary">
                   {f.quantity} {f.unit} · {f.calories} kcal · {f.protein}g protein ·{' '}
                   {new Date(f.date).toLocaleDateString()}
                 </p>
               </div>
               <button
                 onClick={() => handleDelete(f.id)}
-                className="text-sm text-red-600 hover:underline"
+                className="text-sm text-ink-tertiary hover:text-red-600 transition-colors"
               >
                 Remove
               </button>

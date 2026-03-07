@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-50 text-slate-900 font-sans antialiased;
+@layer base {
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+  }
+}
+
+/* Smooth page transitions */
+@layer utilities {
+  .animate-delay-1 { animation-delay: 50ms; }
+  .animate-delay-2 { animation-delay: 100ms; }
+  .animate-delay-3 { animation-delay: 150ms; }
+  .animate-delay-4 { animation-delay: 200ms; }
+  .animate-delay-5 { animation-delay: 250ms; }
+}
+
+/* Input focus ring - minimal, accessible */
+input:focus, select:focus, textarea:focus, button:focus-visible {
+  @apply outline-none ring-2 ring-ink/10 ring-offset-2 ring-offset-surface;
+}
+
+/* Hide scrollbar for nav on mobile while keeping scroll */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
 }

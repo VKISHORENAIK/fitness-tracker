@@ -3,6 +3,9 @@ import { workoutsApi } from '../api';
 
 const defaultExercise = () => ({ name: '', sets: 3, reps: 10, weight: 0, notes: '' });
 
+const inputClass =
+  'block w-full rounded-xl border border-neutral-200 px-3 py-2 text-ink bg-surface-elevated focus:border-ink/30 transition-colors text-sm';
+
 export default function WorkoutForm({ onSaved }) {
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
@@ -58,56 +61,67 @@ export default function WorkoutForm({ onSaved }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <h3 className="font-semibold text-slate-800">New workout</h3>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      <h3 className="font-semibold text-ink text-sm">New workout</h3>
+      {error && (
+        <p className="text-sm text-red-600 rounded-xl bg-red-50 px-3 py-2 border border-red-100">
+          {error}
+        </p>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <label className="block">
-          <span className="text-sm text-slate-600">Workout name</span>
+          <span className="text-sm font-medium text-ink-secondary">Workout name</span>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Leg Day"
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+            className={`${inputClass} mt-1`}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-slate-600">Date</span>
+          <span className="text-sm font-medium text-ink-secondary">Date</span>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+            className={`${inputClass} mt-1`}
           />
         </label>
       </div>
       <label className="block">
-        <span className="text-sm text-slate-600">Notes</span>
+        <span className="text-sm font-medium text-ink-secondary">Notes</span>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={2}
-          className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2"
+          className={`${inputClass} mt-1 resize-none`}
         />
       </label>
 
       <div>
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-slate-700">Exercises</span>
-          <button type="button" onClick={addExercise} className="text-sm text-primary-600 hover:underline">
+          <span className="text-sm font-medium text-ink-secondary">Exercises</span>
+          <button
+            type="button"
+            onClick={addExercise}
+            className="text-sm font-medium text-ink-secondary hover:text-ink transition-colors"
+          >
             + Add exercise
           </button>
         </div>
         <div className="space-y-3">
           {exercises.map((ex, i) => (
-            <div key={i} className="grid grid-cols-12 gap-2 items-end p-3 rounded-lg bg-slate-50">
+            <div
+              key={i}
+              className="grid grid-cols-12 gap-2 items-end p-3 rounded-xl bg-neutral-50 border border-neutral-100"
+            >
               <div className="col-span-12 sm:col-span-3">
                 <input
                   type="text"
                   value={ex.name}
                   onChange={(e) => updateExercise(i, 'name', e.target.value)}
                   placeholder="Exercise name"
-                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  className={inputClass}
                 />
               </div>
               <div className="col-span-4 sm:col-span-2">
@@ -117,7 +131,7 @@ export default function WorkoutForm({ onSaved }) {
                   value={ex.sets}
                   onChange={(e) => updateExercise(i, 'sets', e.target.value)}
                   placeholder="Sets"
-                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  className={inputClass}
                 />
               </div>
               <div className="col-span-4 sm:col-span-2">
@@ -127,7 +141,7 @@ export default function WorkoutForm({ onSaved }) {
                   value={ex.reps}
                   onChange={(e) => updateExercise(i, 'reps', e.target.value)}
                   placeholder="Reps"
-                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  className={inputClass}
                 />
               </div>
               <div className="col-span-4 sm:col-span-2">
@@ -138,7 +152,7 @@ export default function WorkoutForm({ onSaved }) {
                   value={ex.weight || ''}
                   onChange={(e) => updateExercise(i, 'weight', e.target.value)}
                   placeholder="Weight (kg)"
-                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  className={inputClass}
                 />
               </div>
               <div className="col-span-12 sm:col-span-2 flex gap-1">
@@ -147,12 +161,12 @@ export default function WorkoutForm({ onSaved }) {
                   value={ex.notes}
                   onChange={(e) => updateExercise(i, 'notes', e.target.value)}
                   placeholder="Notes"
-                  className="flex-1 rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  className={`${inputClass} flex-1`}
                 />
                 <button
                   type="button"
                   onClick={() => removeExercise(i)}
-                  className="text-red-500 hover:text-red-700 text-sm"
+                  className="text-ink-tertiary hover:text-red-600 transition-colors text-lg px-2"
                 >
                   ×
                 </button>
@@ -165,7 +179,7 @@ export default function WorkoutForm({ onSaved }) {
       <button
         type="submit"
         disabled={saving}
-        className="rounded-lg bg-primary-600 text-white px-4 py-2 text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
+        className="rounded-xl bg-ink text-white px-5 py-2.5 text-sm font-medium hover:bg-ink/90 disabled:opacity-50 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
       >
         {saving ? 'Saving...' : 'Save workout'}
       </button>
