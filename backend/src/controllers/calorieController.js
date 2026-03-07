@@ -134,7 +134,8 @@ export async function calculateCalories(req, res) {
   try {
     // ensure userId is always a string
     const userIdRaw = await getUserId(req);
-    const userId = String(userIdRaw);
+    // const userId = String(userIdRaw);
+    const userId = await getUserId(req);
 
     const { weight, height, age, gender, activityLevel, goal, save = true } = req.body;
 
@@ -208,7 +209,8 @@ export async function calculateCalories(req, res) {
 export async function getCalorieGoals(req, res) {
   try {
     const userIdRaw = await getUserId(req);
-    const userId = String(userIdRaw);
+    // const userId = String(userIdRaw);
+    const userId = await getUserId(req);
 
     const goal = await prisma.nutritionGoal.findFirst({
       where: { userId },

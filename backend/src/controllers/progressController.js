@@ -114,6 +114,8 @@ function startOfDay(d) {
 
 export async function getDailyProgress(req, res) {
   try {
+    // const userId = await getUserId(req);
+
     const userId = await getUserId(req);
 
     const dateParam = req.query.date;
@@ -169,6 +171,7 @@ export async function getDailyProgress(req, res) {
 
 export async function getWeeklyStats(req, res) {
   try {
+    // const userId = await getUserId(req);
     const userId = await getUserId(req);
 
     const days = 7;
