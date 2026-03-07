@@ -67,11 +67,11 @@ model NutritionGoal {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  weight        Float
-  height        Float
-  age           Int
-  activityLevel String
-  goal          String
+  weight        Float?
+  height        Float?
+  age           Int?
+  activityLevel String?
+  goal          String?
 
   dailyCalories Int
   proteinTarget Int
