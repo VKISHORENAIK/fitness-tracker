@@ -28,11 +28,18 @@
 // export const apiDelete = (path) => api(path, { method: 'DELETE' });
 
 // const API_BASE = import.meta.env.VITE_API_BASE || '';
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// const API_BASE = import.meta.env.VITE_API_URL || '';
+
+// const DEFAULT_HEADERS = {
+//   'Content-Type': 'application/json',
+//   'X-User-Id': 'demo-user'   // ensures backend always receives a valid userId
+// };
+
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
-  'X-User-Id': 'demo-user'   // ensures backend always receives a valid userId
+  'X-User-Id': import.meta.env.VITE_USER_ID || 'demo-user'
 };
 
 async function request(url, options = {}) {
