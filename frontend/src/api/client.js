@@ -27,7 +27,8 @@
 // export const apiPut = (path, body) => api(path, { method: 'PUT', body: JSON.stringify(body) });
 // export const apiDelete = (path) => api(path, { method: 'DELETE' });
 
-const API_BASE = import.meta.env.VITE_API_BASE || '';
+// const API_BASE = import.meta.env.VITE_API_BASE || '';
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
