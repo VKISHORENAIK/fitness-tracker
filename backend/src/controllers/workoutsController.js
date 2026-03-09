@@ -1,9 +1,80 @@
+// import prisma from '../lib/prisma.js';
+// import { getUserId } from '../middleware/user.js';
+
+// export async function addWorkout(req, res) {
+//   try {
+//     const userId = getUserId(req);
+//     const { name, date, notes, exercises } = req.body;
+
+//     const workout = await prisma.workout.create({
+//       data: {
+//         userId,
+//         name: name || 'Workout',
+//         date: date ? new Date(date) : new Date(),
+//         notes: notes || null,
+//         exercises: exercises?.length
+//           ? {
+//               create: exercises.map((e) => ({
+//                 name: e.name,
+//                 sets: e.sets,
+//                 reps: e.reps,
+//                 weight: parseFloat(e.weight) || 0,
+//                 notes: e.notes || null,
+//               })),
+//             }
+//           : undefined,
+//       },
+//       include: { exercises: true },
+//     });
+//     res.status(201).json(workout);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: err.message || 'Failed to add workout' });
+//   }
+// }
+
+// export async function getWorkouts(req, res) {
+//   try {
+//     const userId = getUserId(req);
+//     const { from, to } = req.query;
+
+//     const where = { userId };
+//     if (from || to) {
+//       where.date = {};
+//       if (from) where.date.gte = new Date(from);
+//       if (to) where.date.lte = new Date(to);
+//     }
+
+//     const workouts = await prisma.workout.findMany({
+//       where,
+//       include: { exercises: true },
+//       orderBy: { date: 'desc' },
+//     });
+//     res.json(workouts);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: err.message || 'Failed to fetch workouts' });
+//   }
+// }
+
+// export async function deleteWorkout(req, res) {
+//   try {
+//     const userId = getUserId(req);
+//     const { id } = req.params;
+//     await prisma.workout.deleteMany({ where: { id, userId } });
+//     res.status(204).send();
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: err.message || 'Failed to delete workout' });
+//   }
+// }
+
 import prisma from '../lib/prisma.js';
 import { getUserId } from '../middleware/user.js';
 
 export async function addWorkout(req, res) {
   try {
-    const userId = getUserId(req);
+    const userId = String(getUserId(req));
     const { name, date, notes, exercises } = req.body;
 
     const workout = await prisma.workout.create({
@@ -26,6 +97,7 @@ export async function addWorkout(req, res) {
       },
       include: { exercises: true },
     });
+
     res.status(201).json(workout);
   } catch (err) {
     console.error(err);
@@ -35,10 +107,11 @@ export async function addWorkout(req, res) {
 
 export async function getWorkouts(req, res) {
   try {
-    const userId = getUserId(req);
+    const userId = String(getUserId(req));
     const { from, to } = req.query;
 
     const where = { userId };
+
     if (from || to) {
       where.date = {};
       if (from) where.date.gte = new Date(from);
@@ -50,6 +123,7 @@ export async function getWorkouts(req, res) {
       include: { exercises: true },
       orderBy: { date: 'desc' },
     });
+
     res.json(workouts);
   } catch (err) {
     console.error(err);
@@ -59,9 +133,13 @@ export async function getWorkouts(req, res) {
 
 export async function deleteWorkout(req, res) {
   try {
-    const userId = getUserId(req);
+    const userId = String(getUserId(req));
     const { id } = req.params;
-    await prisma.workout.deleteMany({ where: { id, userId } });
+
+    await prisma.workout.deleteMany({
+      where: { id, userId },
+    });
+
     res.status(204).send();
   } catch (err) {
     console.error(err);
